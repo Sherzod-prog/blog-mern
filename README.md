@@ -12,8 +12,7 @@
 
 ### Styling & UI
 
--Tailwind CSS
-
+- Tailwind CSS
 - Shadcn
 
 ### Database

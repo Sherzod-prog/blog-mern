@@ -1,5 +1,5 @@
 import { fetchPostData } from "@/http";
-import { IAccount, IsignInForm, IsignUpForm } from "@/types";
+import { IAccount, IsignUpForm } from "@/types";
 import { create } from "zustand";
 
 interface AuthState {
@@ -20,6 +20,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const data = await fetchPostData("auth/login", values);
       localStorage.setItem("token", data.token);
+      set({ account: data.user });
     } catch (error) {
       console.error("Error login:", error);
     }

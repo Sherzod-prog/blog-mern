@@ -11,14 +11,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EditIcon, Trash2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const DashboardPostsPage = () => {
+  const router = useRouter();
+
   const handleEdit = (id: string) => {
+    router.push(`/post/edit/${id}`);
     console.log(id);
   };
 
-  const handleDelete = (id: string) => {
-    console.log(id);
+  const handleDelete = async (id: string) => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/posts/${id}`, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>

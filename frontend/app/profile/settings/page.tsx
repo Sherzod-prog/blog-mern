@@ -1,22 +1,35 @@
 "use client";
+import { useAuthStore } from "@/store/auth";
+import Image from "next/image";
 import React from "react";
-import { fetchGetData, fetchPostData } from "@/http";
 
 const ProfilePage = () => {
-  // const [data, setData] = useState({});
+  const user = useAuthStore((state) => state.account);
 
-  // const userData = async () => {
-  //   try {
-  //     const fetchData = await fetchGetData("get-user/6763dc35d827ae81926ea635");
-  //     setData(fetchData.name);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // userData();
-  // useEffect(() => {}, [data]);
-  return <div className="">Settings</div>;
+  return (
+    <div className=" flex flex-col justify-center items-center gap-6">
+      <div className="text-xl my-3 ">
+        <span className="text-muted-foreground">Name:</span>{" "}
+        <span>{user?.name}</span>
+      </div>
+      <div className="my-3">
+        <Image
+          src={user?.image ?? ""}
+          alt="profile image"
+          width={300}
+          height={300}
+        />
+      </div>
+      <div>
+        <span className="text-muted-foreground items-start">Email:</span> :
+        {user?.email}
+      </div>
+      <div>
+        <span className="text-muted-foreground">Followers:</span> :{" "}
+        {user?.followers.length}
+      </div>
+    </div>
+  );
 };
 
 export default ProfilePage;

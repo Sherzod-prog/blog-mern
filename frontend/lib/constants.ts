@@ -1,6 +1,6 @@
 export const allPosts = [
   {
-    _id: "1",
+    _id: "6767c873d82dc06d11ce155c",
     title: "Post 1",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim at, tenetur, ad magnam sapiente, dolorum pariatur hic itaque fugiat corrupti voluptate quidem obcaecati nulla tempora libero! Eius illum distinctio modi?",
