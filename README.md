@@ -2,4 +2,20 @@
 
 ## MERN Stack project
 
-- Next Js
+### Backend
+
+- Node Js
+
+### Frontend
+
+- Next JS
+
+### Styling & UI
+
+-Tailwind CSS
+
+- Shadcn
+
+### Database
+
+- Mongo BD
