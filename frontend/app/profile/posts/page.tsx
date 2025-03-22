@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
-import { allPosts } from "@/lib/constants";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -12,9 +11,21 @@ import {
 } from "@/components/ui/table";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { PostStore } from "@/types";
+import { usePostStore } from "@/store/posts";
 
 const DashboardPostsPage = () => {
   const router = useRouter();
+  const { posts, fetchPosts, page, loading, error } = usePostStore<PostStore>(
+    (state) => state
+  );
+
+  useEffect(() => {
+    fetchPosts(page);
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   const handleEdit = (id: string) => {
     router.push(`/post/edit/${id}`);
@@ -46,8 +57,8 @@ const DashboardPostsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allPosts &&
-            allPosts.map((post, index) => (
+          {posts &&
+            posts.map((post, index) => (
               <TableRow key={index}>
                 <TableCell className="w-1/12 text-center">
                   {index + 1}

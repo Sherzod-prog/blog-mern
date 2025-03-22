@@ -8,6 +8,7 @@ const {
   commentPost,
   updatePost,
   getPosts,
+  getAllPosts,
   getPopularContents,
   getComments,
   deletePost,
@@ -31,6 +32,7 @@ router.patch("/update/:id", userAuth, updatePost);
 
 // Get posts Routes
 router.get("/", getPosts);
+router.get("/", getAllPosts);
 router.get("/popular", getPopularContents);
 router.get("/:postId", getPost);
 router.get("/comments/:postId", getComments);

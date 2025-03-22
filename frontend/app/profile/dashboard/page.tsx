@@ -31,7 +31,7 @@ const DashboardPage = () => {
     <div>
       <h1>Dashboard</h1>
       <div></div>
-      <h1>User: {data?.totalFollowers.name}</h1>
+      <h1>User: </h1>
       <h1>Posts: {data?.totalPosts}</h1>
       <h1>Followers: {data?.followers}</h1>
     </div>

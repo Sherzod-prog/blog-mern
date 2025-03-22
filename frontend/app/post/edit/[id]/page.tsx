@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,19 +25,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useParams } from "next/navigation";
+import { usePostStore } from "@/store/posts";
+import { PostStore } from "@/types";
 
 const PostEditPage = () => {
   const { id } = useParams();
+  const { posts, fetchPosts, page, loading, error } = usePostStore<PostStore>(
+    (state) => state
+  );
 
-  console.log(id);
+  const post = posts.find((post) => post._id === id);
+  console.log("EDIT", post);
 
   const form = useForm<z.infer<typeof createPostFormSchema>>({
     resolver: zodResolver(createPostFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-      cat: "",
+      title: post?.title || "",
+      description: post?.description || "",
+      image: post?.image || "",
+      cat: post?.cat || "",
     },
   });
 
@@ -45,6 +51,9 @@ const PostEditPage = () => {
     console.log(value);
   };
 
+  useEffect(() => {
+    fetchPosts(page);
+  }, [page]);
   return (
     <div>
       <div className="h-[calc(100vh-30px)] md:h-[calc(100vh-80px)] py-10 m-auto px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">

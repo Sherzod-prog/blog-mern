@@ -22,7 +22,14 @@ import { signUpFormSchema } from "@/lib/validation";
 
 const SignUpPage = () => {
   const login = useAuthStore((state) => state.login);
+
   const router = useRouter();
+  //  user tokenni almashrirish uchun
+
+  // const iat=  1516239022
+  // const date = new Date(iat);
+  // console.log(date.toLocaleString());
+  // ==>  18.01.1970, 19:10:39
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),

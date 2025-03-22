@@ -25,14 +25,6 @@ export interface ChildProps {
   children: ReactNode;
 }
 
-// export interface AxiosResponse {
-//   success: boolean;
-//   message?: string;
-// }
-
-// export interface AccountResponse extends AxiosResponse {
-//   data: IAccount[] | IAccount;
-// }
 export interface INavbarItems {
   id: number;
   label: string;
@@ -40,13 +32,24 @@ export interface INavbarItems {
 }
 export interface IPost {
   _id: string;
+  image?: string;
   title: string;
-  description: string;
-  author: string;
-  image: string;
-  category: string;
+  author: { name: string; id: number };
+  cat: string;
   createdAt: string;
-  views: string;
+  description: string;
+
+  // _id: string;
+  // title: string;
+  // description: string;
+  // author: string;
+  // image?: string;
+  // cat: string;
+  // createdAt: string;
+  // views: IView[];
+  // comments: IComment;
+  // status: boolean;
+  // updatedAt: string;
 }
 export interface IAdminAnalytics {
   followers: number;
@@ -103,4 +106,15 @@ export interface IsignInForm {
   password: string;
   image: string;
   accountType: string;
+}
+
+export interface PostStore {
+  posts: Array<{ cat: string; [key: string]: any }>; // Adjust the shape of the post object as needed
+  fetchPosts: (page: number) => void;
+  page: number;
+  numOfPages: number;
+  loading: boolean;
+  error: string | null;
+  totalPost: number;
+  limit: number;
 }

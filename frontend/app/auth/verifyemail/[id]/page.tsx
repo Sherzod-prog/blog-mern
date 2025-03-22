@@ -22,7 +22,7 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Countdown from "@/components/Countdown";
-import { fetchPostData } from "@/http";
+import { fetchPostDataVerify } from "@/http";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -43,9 +43,11 @@ const VerifyEmailPage = () => {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit() {
     try {
-      const fetchData = await fetchPostData("users/verify", data);
+      const fetchData = await fetchPostDataVerify(
+        `users/verify/${id}/${form.getValues().pin}`
+      );
       if (fetchData.success) {
         router.push("/auth/login");
       }
@@ -56,7 +58,7 @@ const VerifyEmailPage = () => {
 
   const resendOTP = async () => {
     try {
-      const fetchData = await fetchPostData(`users/resend-link/${id}`);
+      const fetchData = await fetchPostDataVerify(`users/resend-link/${id}`);
       console.log(fetchData.message);
     } catch (error) {
       console.log(error);

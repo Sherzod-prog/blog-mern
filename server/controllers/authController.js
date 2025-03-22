@@ -39,9 +39,9 @@ const register = async (req, res, next) => {
     user.password = undefined;
 
     const tokens = tokenServis.generateToken({
+      userId: user._id,
       email: user.email,
       name: user.name,
-      userId: user._id,
     });
 
     await tokenServis.saveToken(user._id, tokens.refreshToken);

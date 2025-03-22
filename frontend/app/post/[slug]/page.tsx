@@ -1,19 +1,28 @@
+"use client";
+
+import React, { useEffect } from "react";
 import CommentInput from "@/components/CommentInput";
-import { allPosts } from "@/lib/constants";
+import { usePostStore } from "@/store/posts";
+import { PostStore } from "@/types";
 import Image from "next/image";
-import React from "react";
 
 const PostDetailPage = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) => {
-  const slug = (await params).slug;
+  const { slug } = await params; // Await the resolution of the promise
   console.log(slug);
 
-  const PostDetail = allPosts.find(
-    (post) => post.title.toLocaleLowerCase().split(" ").join("-") === slug
+  const { posts, page, fetchPosts } = usePostStore<PostStore>((state) => state);
+
+  const PostDetail = posts.find(
+    (post) => post.title.toLowerCase().split(" ").join("-") === slug
   );
+  useEffect(() => {
+    fetchPosts(page);
+  }, [page]);
+
   return (
     <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
       {PostDetail && (
@@ -23,7 +32,7 @@ const PostDetailPage = async ({
           </h1>
           <div>
             <Image
-              src={PostDetail.image}
+              src={PostDetail.image || "../vercel.svg"}
               alt="post image"
               className="rounded-2xl object-cover my-2"
               width={600}

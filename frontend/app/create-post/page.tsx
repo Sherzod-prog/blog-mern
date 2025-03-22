@@ -22,6 +22,7 @@ import { Categories } from "@/constants";
 import { createPostFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const CreatePost = () => {
@@ -49,7 +50,10 @@ const CreatePost = () => {
         }
       );
       const data = await response.json();
-      if (data.success) form.reset();
+      if (data.success) {
+        toast.success(data.message);
+        form.reset();
+      }
     } catch (error) {
       console.log(error);
     }

@@ -50,10 +50,10 @@ const resendOTP = async (req, res, next) => {
     const tokens = tokenServis.generateToken({
       email: user.email,
       name: user.name,
-      userId: user._id,
+      userId: user._id.toString(),
     });
 
-    await tokenServis.saveToken(user._id, tokens.refreshToken);
+    await tokenServis.saveToken(user._id.toString(), tokens.refreshToken);
 
     if (user?.accountType === "Writer") {
       sendlVerificationEmail(user, res, tokens);

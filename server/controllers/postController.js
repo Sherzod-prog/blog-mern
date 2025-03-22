@@ -169,14 +169,18 @@ const createPost = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { title, description, image, cat } = req.body;
-    console.log("req.body.user", req.body.user);
 
     if (!title || !description || !image || !cat) {
       return next("All fields are required. Please enter all fields");
     }
 
+    const user = await User.findById(userId);
+    const author = {
+      name: user.name,
+      id: user._id,
+    };
     const post = await Post.create({
-      author: userId,
+      author,
       title,
       description,
       image,
@@ -244,17 +248,57 @@ const updatePost = async (req, res, next) => {
 const getPosts = async (req, res, next) => {
   try {
     const { cat, writerId } = req.query;
-    let query = { status: true };
 
+    let query = { status: true };
     if (cat) {
       query.cat = cat;
     } else if (writerId) {
-      query.user = writerId;
+      query.author = writerId;
     }
     let queryResult = Post.find(query)
       .populate({
-        path: "user",
-        select: "name image -password",
+        path: "author",
+        select: "title image -password",
+      })
+      .sort({ _id: -1 });
+
+    // pagination
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 8;
+    const skip = (page - 1) * limit;
+
+    // records count
+    const totalPost = await Post.countDocuments(queryResult);
+    const numOfPages = Math.ceil(totalPost / limit);
+    queryResult.skip(skip).limit(limit);
+    const posts = await queryResult;
+
+    res.status(200).json({
+      success: true,
+      totalPost,
+      data: posts,
+      numOfPages,
+      page,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Something went wrong" });
+  }
+};
+const getAllPosts = async (req, res, next) => {
+  try {
+    const { cat, writerId } = req.query;
+
+    let query = { status: true };
+    if (cat) {
+      query.cat = cat;
+    } else if (writerId) {
+      query.author = writerId;
+    }
+    let queryResult = Post.find(query)
+      .populate({
+        path: "author",
+        select: "title image -password",
       })
       .sort({ _id: -1 });
 
@@ -419,6 +463,7 @@ module.exports = {
   commentPost,
   updatePost,
   getPosts,
+  getAllPosts,
   getPopularContents,
   getComments,
   deletePost,
