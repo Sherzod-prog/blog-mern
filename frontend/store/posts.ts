@@ -11,13 +11,13 @@ export const usePostStore = create<PostStore>((set) => ({
   loading: false,
   error: null,
 
-  fetchPosts: async (page = 1, limit = 8, cat = "", writerId = "") => {
+  fetchAllPosts: async (page = 1, limit = 8) => {
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URI}/posts/`,
         {
-          params: { page, limit, cat, writerId },
+          params: { page, limit },
           headers: {
             "Cache-Control": "no-cache", // Disable caching
           },

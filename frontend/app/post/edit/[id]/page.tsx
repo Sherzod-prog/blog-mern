@@ -30,12 +30,11 @@ import { PostStore } from "@/types";
 
 const PostEditPage = () => {
   const { id } = useParams();
-  const { posts, fetchPosts, page, loading, error } = usePostStore<PostStore>(
+  const { posts, fetchAllPosts, page } = usePostStore<PostStore>(
     (state) => state
   );
 
   const post = posts.find((post) => post._id === id);
-  console.log("EDIT", post);
 
   const form = useForm<z.infer<typeof createPostFormSchema>>({
     resolver: zodResolver(createPostFormSchema),
@@ -52,7 +51,7 @@ const PostEditPage = () => {
   };
 
   useEffect(() => {
-    fetchPosts(page);
+    fetchAllPosts(page);
   }, [page]);
   return (
     <div>

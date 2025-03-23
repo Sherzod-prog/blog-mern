@@ -287,15 +287,7 @@ const getPosts = async (req, res, next) => {
 };
 const getAllPosts = async (req, res, next) => {
   try {
-    const { cat, writerId } = req.query;
-
-    let query = { status: true };
-    if (cat) {
-      query.cat = cat;
-    } else if (writerId) {
-      query.author = writerId;
-    }
-    let queryResult = Post.find(query)
+    let queryResult = Post.find({ status: true })
       .populate({
         path: "author",
         select: "title image -password",

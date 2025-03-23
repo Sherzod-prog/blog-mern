@@ -23,6 +23,7 @@ router.post("/admin-analytics", userAuth, stats);
 router.post("/admin-followers", userAuth, getFollowers);
 router.post("/admin-content", userAuth, getPostContent);
 router.post("/create-post", userAuth, createPost);
+router.get("/myposts", getPosts);
 
 // Like & comment on post
 router.post("/comment/:id", userAuth, commentPost);
@@ -31,7 +32,6 @@ router.post("/comment/:id", userAuth, commentPost);
 router.patch("/update/:id", userAuth, updatePost);
 
 // Get posts Routes
-router.get("/", getPosts);
 router.get("/", getAllPosts);
 router.get("/popular", getPopularContents);
 router.get("/:postId", getPost);

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const PostListItem = ({
+  _id,
   image,
   title,
   author,
@@ -11,7 +12,7 @@ const PostListItem = ({
   description,
 }: IPost) => {
   return (
-    <div className="flex flex-col xl:flex-row gap-4 my-3">
+    <div className="flex flex-col xl:flex-row gap-4 my-3 shadow rounded-md p-2">
       <div className="xl:block xl:w-1/3">
         <Image
           src={image || "../vercel.svg"}
@@ -42,7 +43,7 @@ const PostListItem = ({
           {description}
         </p>
         <Link
-          href={`/post/${title.toLowerCase().split(" ").join("-")}`}
+          href={`post/${title.toLowerCase().split(" ").join("-")}`}
           className="underline text-blue-800 text-sm"
         >
           Read More

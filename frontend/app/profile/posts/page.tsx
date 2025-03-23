@@ -13,16 +13,17 @@ import { EditIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { PostStore } from "@/types";
 import { usePostStore } from "@/store/posts";
+import { toast } from "sonner";
+import axios from "axios";
 
 const DashboardPostsPage = () => {
   const router = useRouter();
-  const { posts, fetchPosts, page, loading, error } = usePostStore<PostStore>(
-    (state) => state
-  );
+  const { posts, fetchAllPosts, page, loading, error, numOfPages } =
+    usePostStore<PostStore>((state) => state);
 
   useEffect(() => {
-    fetchPosts(page);
-  }, []);
+    fetchAllPosts(page);
+  }, [page]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -34,9 +35,18 @@ const DashboardPostsPage = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/posts/${id}`, {
-        method: "DELETE",
-      });
+      const token = localStorage.getItem("token");
+      const { data } = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BASE_URI}/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(data.message);
+      fetchAllPosts(page);
+      return data;
     } catch (error) {
       console.log(error);
     }
@@ -73,11 +83,15 @@ const DashboardPostsPage = () => {
                   />
                 </TableCell>
                 <TableCell>
-                  <span className="w-1/4 line-clamp-1">{post.title}</span>
+                  <span className="w-1/4 line-clamp-2">{post.title}</span>
                 </TableCell>
-                <TableCell>{post.category}</TableCell>
-                <TableCell className="text-end">{post.createdAt}</TableCell>
-                <TableCell className="text-center">{post.views}</TableCell>
+                <TableCell>{post.cat}</TableCell>
+                <TableCell className="text-end">
+                  {post.createdAt.slice(0, 10)}
+                </TableCell>
+                <TableCell className="text-center">
+                  {post.views.length}
+                </TableCell>
                 <TableCell
                   className="text-green-600 text-center cursor-pointer"
                   onClick={() => handleEdit(post._id)}
@@ -97,6 +111,18 @@ const DashboardPostsPage = () => {
             ))}
         </TableBody>
       </Table>
+      <div className=" w-full flex justify-center gap-4 p-5">
+        <button onClick={() => fetchAllPosts(page - 1)} disabled={page === 1}>
+          ⬅️ Previous
+        </button>
+        |
+        <button
+          onClick={() => fetchAllPosts(page + 1)}
+          disabled={page === numOfPages}
+        >
+          Next ➡️
+        </button>
+      </div>
     </div>
   );
 };

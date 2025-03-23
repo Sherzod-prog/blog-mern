@@ -67,8 +67,8 @@ export interface ICategory {
 }
 export interface IComment {
   _id: string;
-  comment: string;
-  author: string;
+  description: string;
+  user: string;
   post: string;
   createdAt: string;
 }
@@ -110,7 +110,7 @@ export interface IsignInForm {
 
 export interface PostStore {
   posts: Array<{ cat: string; [key: string]: any }>; // Adjust the shape of the post object as needed
-  fetchPosts: (page: number) => void;
+  fetchAllPosts: (page: number) => void;
   page: number;
   numOfPages: number;
   loading: boolean;

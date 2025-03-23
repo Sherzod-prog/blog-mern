@@ -131,6 +131,8 @@ const login = async (req, res, next) => {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         secure: true,
       });
+      res.setHeader("Authorization", `Bearer ${tokens.accessToken}`);
+
       res.status(201).json({
         success: true,
         message: "Login successful with google",
@@ -166,6 +168,10 @@ const login = async (req, res, next) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       secure: true,
     });
+    res.setHeader("authorization", {
+      authorization: `Bearer ${tokens.accessToken}`,
+    });
+
     res.status(201).json({
       success: true,
       message: "Login successfully ",
