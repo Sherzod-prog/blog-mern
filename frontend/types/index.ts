@@ -18,7 +18,7 @@ export interface IAccount {
   followers: [];
   createdAt: Date;
   updatedAt: Date;
-  image: string;
+  avatar: string;
 }
 
 export interface ChildProps {

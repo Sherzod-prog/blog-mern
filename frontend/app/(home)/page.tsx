@@ -4,11 +4,8 @@ import PostListItem from "@/components/PostListItem";
 import { usePostStore } from "@/store/posts";
 import { PostStore } from "@/types";
 import LoadingPage from "@/components/LoadingPage";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-
   const { posts, fetchAllPosts, page, numOfPages, loading, error } =
     usePostStore<PostStore>((state) => state);
   const [category, setCategory] = useState("");
@@ -16,16 +13,13 @@ export default function Home() {
   const categoryList = posts
     .map((post) => post.cat)
     .filter((value, index, self) => self.indexOf(value) === index);
+
   useEffect(() => {
     fetchAllPosts(page);
   }, [page]);
 
   if (loading) return <LoadingPage />;
   if (error) return <div>{error}</div>;
-  const handleClick = (id: string) => {
-    router.push(`/post/edit/${id}`);
-    console.log("clicked", id);
-  };
 
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">

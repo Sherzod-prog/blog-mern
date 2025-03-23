@@ -12,10 +12,8 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   account: null,
 
-  // Foydalanuvchini do'konga saqlash uchun funksiya
   setAccount: (account) => set({ account }),
 
-  // Login funksiyasi (API chaqiruv)
   login: async (values) => {
     try {
       const data = await fetchPostData("auth/login", values);

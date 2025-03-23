@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { LayoutDashboard, LogOutIcon, Settings } from "lucide-react";
+import { LayoutDashboard, LogInIcon, LogOutIcon, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
@@ -14,11 +14,14 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/auth";
 
 const Navbar = () => {
   const pathname = usePathname();
-
   const router = useRouter();
+
+  const { account } = useAuthStore((state) => state);
+  console.log(account);
 
   if (pathname.startsWith("/auth")) {
     return null;
@@ -72,7 +75,7 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage src={account?.avatar} />
                   <AvatarFallback>Sherzod</AvatarFallback>
                   <span className="sr-only">Avatar</span>
                 </Avatar>
