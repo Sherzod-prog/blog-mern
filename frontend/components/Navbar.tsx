@@ -21,7 +21,6 @@ const Navbar = () => {
   const router = useRouter();
 
   const { account } = useAuthStore((state) => state);
-  console.log(account);
 
   if (pathname.startsWith("/auth")) {
     return null;
