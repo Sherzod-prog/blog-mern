@@ -12,13 +12,13 @@ const page = () => {
     (state) => state
   );
 
-  const post = posts.find(
-    (post) => post.title.toLowerCase().split(" ").join("-") === slug
-  );
-
   useEffect(() => {
     fetchAllPosts(page, 10);
   }, [page]);
+
+  const post = posts.find(
+    (post) => post.title.toLowerCase().split(" ").join("-") === slug
+  );
   return (
     <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
       {post && (
