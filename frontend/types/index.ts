@@ -36,20 +36,12 @@ export interface IPost {
   title: string;
   author: { name: string; id: number };
   cat: string;
-  createdAt: string;
   description: string;
-
-  // _id: string;
-  // title: string;
-  // description: string;
-  // author: string;
-  // image?: string;
-  // cat: string;
-  // createdAt: string;
-  // views: IView[];
-  // comments: IComment;
-  // status: boolean;
-  // updatedAt: string;
+  createdAt: string;
+  views: IView[];
+  comments: IComment;
+  status: boolean;
+  updatedAt: string;
 }
 export interface IAdminAnalytics {
   followers: number;

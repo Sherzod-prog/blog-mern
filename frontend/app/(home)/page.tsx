@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PostListItem from "@/components/PostListItem";
 import { usePostStore } from "@/store/posts";
-import { PostStore } from "@/types";
+import { IPost, PostStore } from "@/types";
 import LoadingPage from "@/components/LoadingPage";
 
 export default function Home() {
@@ -16,6 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchAllPosts(page, 10);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   if (loading) return <LoadingPage />;

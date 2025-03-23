@@ -14,6 +14,7 @@ const page = () => {
 
   useEffect(() => {
     fetchAllPosts(page, 10);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const post = posts.find(

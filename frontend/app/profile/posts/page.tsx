@@ -23,6 +23,7 @@ const DashboardPostsPage = () => {
 
   useEffect(() => {
     fetchAllPosts(page, 10);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   if (loading) return <div>Loading...</div>;
