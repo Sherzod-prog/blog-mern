@@ -22,7 +22,7 @@ const DashboardPostsPage = () => {
     usePostStore<PostStore>((state) => state);
 
   useEffect(() => {
-    fetchAllPosts(page);
+    fetchAllPosts(page, 10);
   }, [page]);
 
   if (loading) return <div>Loading...</div>;
@@ -45,7 +45,7 @@ const DashboardPostsPage = () => {
         }
       );
       toast.success(data.message);
-      fetchAllPosts(page);
+      fetchAllPosts(page, 10);
       return data;
     } catch (error) {
       console.log(error);
@@ -112,12 +112,15 @@ const DashboardPostsPage = () => {
         </TableBody>
       </Table>
       <div className=" w-full flex justify-center gap-4 p-5">
-        <button onClick={() => fetchAllPosts(page - 1)} disabled={page === 1}>
+        <button
+          onClick={() => fetchAllPosts(page - 1, 10)}
+          disabled={page === 1}
+        >
           ⬅️ Previous
         </button>
         |
         <button
-          onClick={() => fetchAllPosts(page + 1)}
+          onClick={() => fetchAllPosts(page + 1, 10)}
           disabled={page === numOfPages}
         >
           Next ➡️

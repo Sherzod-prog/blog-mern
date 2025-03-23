@@ -51,7 +51,7 @@ const PostEditPage = () => {
   };
 
   useEffect(() => {
-    fetchAllPosts(page);
+    fetchAllPosts(page, 10);
   }, [page]);
   return (
     <div>

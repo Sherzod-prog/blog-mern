@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { LayoutDashboard, LogInIcon, LogOutIcon, Settings } from "lucide-react";
+import { LayoutDashboard, LogOutIcon, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";

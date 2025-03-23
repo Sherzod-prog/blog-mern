@@ -17,7 +17,7 @@ const page = () => {
   );
 
   useEffect(() => {
-    fetchAllPosts(page);
+    fetchAllPosts(page, 10);
   }, [page]);
   return (
     <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">

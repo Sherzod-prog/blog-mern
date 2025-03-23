@@ -110,7 +110,7 @@ export interface IsignInForm {
 
 export interface PostStore {
   posts: Array<{ cat: string; [key: string]: any }>; // Adjust the shape of the post object as needed
-  fetchAllPosts: (page: number) => void;
+  fetchAllPosts: (page: number, limit: number) => void;
   page: number;
   numOfPages: number;
   loading: boolean;
