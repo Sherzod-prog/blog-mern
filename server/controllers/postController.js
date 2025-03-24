@@ -231,9 +231,13 @@ const commentPost = async (req, res, next) => {
 const updatePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { title, description, image, cat } = req.body;
 
-    const post = await Post.findByIdAndUpdate(id, { status }, { new: true });
+    const post = await Post.findByIdAndUpdate(
+      id,
+      { title, description, image, cat },
+      { new: true }
+    );
     res.status(201).json({
       success: true,
       message: "Action performed successfully",

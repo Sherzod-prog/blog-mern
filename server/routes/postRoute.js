@@ -29,7 +29,7 @@ router.get("/myposts", getPosts);
 router.post("/comment/:id", userAuth, commentPost);
 
 // Update post
-router.patch("/update/:id", userAuth, updatePost);
+router.put("/update/:id", userAuth, updatePost);
 
 // Get posts Routes
 router.get("/", getAllPosts);

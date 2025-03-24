@@ -7,11 +7,11 @@ export const NavbarItems = [
 ];
 
 export const Categories = [
-  { id: 1, label: "Coding" },
-  { id: 2, label: "Music" },
-  { id: 3, label: "Gaming" },
-  { id: 4, label: "News" },
-  { id: 5, label: "Sports" },
+  { id: 1, label: "coding" },
+  { id: 2, label: "music" },
+  { id: 3, label: "gaming" },
+  { id: 4, label: "news" },
+  { id: 5, label: "sports" },
 ];
 
 export const sidebarLinks = [

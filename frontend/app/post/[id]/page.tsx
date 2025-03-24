@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 
-const page = () => {
+const PostPage = () => {
   const { slug } = useParams();
   const { posts, fetchAllPosts, page } = usePostStore<PostStore>(
     (state) => state
@@ -17,9 +17,7 @@ const page = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const post = posts.find(
-    (post) => post.title.toLowerCase().split(" ").join("-") === slug
-  );
+  const post = posts.find((post) => post.title.split(" ").join("-") === slug);
 
   return (
     <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
@@ -76,4 +74,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PostPage;

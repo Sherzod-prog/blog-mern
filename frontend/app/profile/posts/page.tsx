@@ -31,7 +31,6 @@ const DashboardPostsPage = () => {
 
   const handleEdit = (id: string) => {
     router.push(`/post/edit/${id}`);
-    console.log(id);
   };
 
   const handleDelete = async (id: string) => {

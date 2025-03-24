@@ -2,17 +2,27 @@
 import React, { useEffect, useState } from "react";
 import PostListItem from "@/components/PostListItem";
 import { usePostStore } from "@/store/posts";
-import { PostStore } from "@/types";
+import { IPost, PostStore } from "@/types";
 import LoadingPage from "@/components/LoadingPage";
-
+// interface IPost {
+//   [key: string]: any; // Adjust this type to match the structure of your post object
+//   cat: string;
+// }
 export default function Home() {
   const { posts, fetchAllPosts, page, numOfPages, loading, error } =
-    usePostStore<PostStore>((state) => state);
+    usePostStore<PostStore>((state) => ({
+      ...state,
+      posts: state.posts as IPost[],
+    }));
   const [category, setCategory] = useState("");
 
   const categoryList = posts
     .map((post) => post.cat)
     .filter((value, index, self) => self.indexOf(value) === index);
+
+  const filteredPosts = posts
+    .filter((post) => post.cat === category || category === "")
+    .map((post) => post) as IPost[];
 
   useEffect(() => {
     fetchAllPosts(page, 10);
@@ -43,11 +53,9 @@ export default function Home() {
       </div>
       <div></div>
       <div className="grid grid-cols-2 gap-4">
-        {posts
-          .filter((post) => post.cat === category || category === "")
-          .map((post: any, index: number) => (
-            <PostListItem key={index} {...post} />
-          ))}
+        {filteredPosts.map((post) => (
+          <PostListItem key={post._id} post={post} />
+        ))}
       </div>
       {/* Pagination controls */}
       <div className=" w-full flex justify-center gap-4 p-5">

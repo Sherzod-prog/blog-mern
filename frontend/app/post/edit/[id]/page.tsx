@@ -11,25 +11,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Categories } from "@/constants";
 import { createPostFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { usePostStore } from "@/store/posts";
 import { PostStore } from "@/types";
+import { toast } from "sonner";
+import axios from "axios";
 
 const PostEditPage = () => {
   const { id } = useParams();
+  const router = useRouter();
   const { posts, fetchAllPosts, page } = usePostStore<PostStore>(
     (state) => state
   );
@@ -47,7 +42,25 @@ const PostEditPage = () => {
   });
 
   const onSubmit = async (value: z.infer<typeof createPostFormSchema>) => {
-    console.log(value);
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_URI}/posts/update/${id}`,
+        value,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await response.data;
+      if (data.success) {
+        toast.success(data.message);
+        router.push("/profile/posts");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -68,24 +81,10 @@ const PostEditPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Categories.map((category) => (
-                        <SelectItem key={category.id} value={category.label}>
-                          {category.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Select a category.</FormDescription>
+                  <FormControl>
+                    <Input placeholder="category" {...field} />
+                  </FormControl>
+                  <FormDescription>Editing category</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -148,7 +147,7 @@ const PostEditPage = () => {
               <Button
                 variant="destructive"
                 type="reset"
-                onClick={() => form.reset()}
+                onClick={() => router.push("/profile/posts")}
               >
                 Cancel
               </Button>
