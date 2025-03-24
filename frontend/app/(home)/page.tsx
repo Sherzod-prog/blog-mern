@@ -10,10 +10,7 @@ import LoadingPage from "@/components/LoadingPage";
 // }
 export default function Home() {
   const { posts, fetchAllPosts, page, numOfPages, loading, error } =
-    usePostStore<PostStore>((state) => ({
-      ...state,
-      posts: state.posts as IPost[],
-    }));
+    usePostStore<PostStore>((state) => state as PostStore);
   const [category, setCategory] = useState("");
 
   const categoryList = posts
