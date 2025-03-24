@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PostListItem from "@/components/PostListItem";
 import { usePostStore } from "@/store/posts";
-import { IPost, PostStore } from "@/types";
+import { PostStore } from "@/types";
 import LoadingPage from "@/components/LoadingPage";
 
 export default function Home() {
