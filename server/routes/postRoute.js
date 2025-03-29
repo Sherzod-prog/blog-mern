@@ -8,7 +8,6 @@ const {
   commentPost,
   updatePost,
   getPosts,
-  getAllPosts,
   getPopularContents,
   getComments,
   deletePost,
@@ -23,7 +22,6 @@ router.post("/admin-analytics", userAuth, stats);
 router.post("/admin-followers", userAuth, getFollowers);
 router.post("/admin-content", userAuth, getPostContent);
 router.post("/create-post", userAuth, createPost);
-router.get("/myposts", getPosts);
 
 // Like & comment on post
 router.post("/comment/:id", userAuth, commentPost);
@@ -32,7 +30,7 @@ router.post("/comment/:id", userAuth, commentPost);
 router.put("/update/:id", userAuth, updatePost);
 
 // Get posts Routes
-router.get("/", getAllPosts);
+router.get("/", getPosts);
 router.get("/popular", getPopularContents);
 router.get("/:postId", getPost);
 router.get("/comments/:postId", getComments);

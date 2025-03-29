@@ -82,7 +82,7 @@ const CreatePost = () => {
                   <SelectContent>
                     {Categories.map((category) => (
                       <SelectItem key={category.id} value={category.label}>
-                        {category.label}
+                        <span className="capitalize"> {category.label} </span>
                       </SelectItem>
                     ))}
                   </SelectContent>

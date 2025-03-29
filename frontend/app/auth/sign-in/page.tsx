@@ -18,10 +18,11 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signInFormSchema } from "@/lib/validation";
-import { fetchPostData } from "@/http";
+import { useAuthStore } from "@/store/auth";
 
 const SignInPage = () => {
   const router = useRouter();
+  const register = useAuthStore((state) => state.register);
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -35,11 +36,12 @@ const SignInPage = () => {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
     try {
-      const fetchData = await fetchPostData("auth/register", values);
-      router.push(`/auth/verifyemail/${fetchData.user._id}`);
+      const data = (await register(values)) as unknown as {
+        user: { _id: string };
+      };
+      router.push(`/auth/verifyemail/${data?.user?._id}`);
     } catch (err) {
       console.log("Error:", err);
       alert(err);

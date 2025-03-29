@@ -19,17 +19,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth";
 import { signUpFormSchema } from "@/lib/validation";
+import { toast } from "sonner";
 
 const SignUpPage = () => {
   const login = useAuthStore((state) => state.login);
 
   const router = useRouter();
-  //  user tokenni almashrirish uchun
-
-  // const iat=  1516239022
-  // const date = new Date(iat);
-  // console.log(date.toLocaleString());
-  // ==>  18.01.1970, 19:10:39
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -42,6 +37,7 @@ const SignUpPage = () => {
   const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
     try {
       await login(values);
+      toast.success("Login successful!");
       router.push("/");
     } catch (error) {
       console.error("Error login:", error);

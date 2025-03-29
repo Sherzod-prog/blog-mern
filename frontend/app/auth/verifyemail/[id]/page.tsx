@@ -22,7 +22,8 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Countdown from "@/components/Countdown";
-import { fetchPostDataVerify } from "@/http";
+import { useAuthStore } from "@/store/auth";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -33,6 +34,8 @@ const FormSchema = z.object({
 const VerifyEmailPage = () => {
   const { id } = useParams();
   const router = useRouter();
+
+  const { verify, resendotp } = useAuthStore((state) => state);
 
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -45,12 +48,8 @@ const VerifyEmailPage = () => {
 
   async function onSubmit() {
     try {
-      const fetchData = await fetchPostDataVerify(
-        `users/verify/${id}/${form.getValues().pin}`
-      );
-      if (fetchData.success) {
-        router.push("/auth/login");
-      }
+      await verify(id, form.getValues().pin);
+      router.push("/auth/login");
     } catch (error) {
       console.log(error);
     }
@@ -58,8 +57,9 @@ const VerifyEmailPage = () => {
 
   const resendOTP = async () => {
     try {
-      const fetchData = await fetchPostDataVerify(`users/resend-link/${id}`);
-      console.log(fetchData.message);
+      const resData = await resendotp(`${id}`);
+      toast.success("resend otp successfully");
+      return resData;
     } catch (error) {
       console.log(error);
     }

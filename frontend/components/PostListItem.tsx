@@ -23,7 +23,7 @@ const PostListItem: React.FC<{ post: IPost }> = ({ post }) => {
             <span>Written by </span>
             <Link
               className="text-blue-800"
-              href={`/posts?author=${post.author.id}`}
+              href={`/post/author/${post.author.id}`}
             >
               {post.author.name}
             </Link>

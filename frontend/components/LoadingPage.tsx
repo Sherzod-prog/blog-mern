@@ -2,7 +2,7 @@ import React from "react";
 
 const LoadingPage = () => {
   return (
-    <div className="flex flex-wrap items-center justify-between">
+    <div className="flex flex-wrap items-center justify-center">
       {Array.from({ length: 8 }).map((_, index) => (
         <div
           className="shadow rounded-md p-2 max-w-xl w-full mt-8 h-40"

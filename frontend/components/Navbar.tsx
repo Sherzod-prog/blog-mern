@@ -19,6 +19,7 @@ import { useAuthStore } from "@/store/auth";
 const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const logout = useAuthStore((state) => state.logout);
 
   const { account } = useAuthStore((state) => state);
 
@@ -28,10 +29,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/auth/logout`, {
-        method: "POST",
-      });
-      localStorage.removeItem("token");
+      await logout();
       toast.success("Logout successfully");
       router.push("/auth/sign-up");
     } catch (error) {

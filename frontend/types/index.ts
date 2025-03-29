@@ -1,11 +1,14 @@
+import { ParamValue } from "next/dist/server/request/params";
 import { ReactNode } from "react";
 
 export interface IUser {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
   accountType: string;
-  image: string;
+  avatar: string;
+  followers: [];
 }
 export interface IAccount {
   _id: string;
@@ -102,11 +105,29 @@ export interface IsignInForm {
 
 export interface PostStore {
   posts: Array<{ cat: string; [key: string]: any }>; // Adjust the shape of the post object as needed
-  fetchAllPosts: (page: number, limit: number) => void;
+  fetchAllPosts: (page: number, limit: number, cat?: string) => void;
+  fetchUserPosts: (page: number, limit: number) => void;
+  fetchUserFollowers: (page: number, limit: number) => void;
+  // fetchPostById: (id: string) => void;
+  deletePost: (id: string) => void;
   page: number;
   numOfPages: number;
   loading: boolean;
   error: string | null;
   totalPost: number;
   limit: number;
+}
+export interface AuthState {
+  account: IAccount | null;
+  setAccount: (account: IAccount | null) => void;
+  login: (values: IsignUpForm) => Promise<void>;
+  register: (values: IsignUpForm) => Promise<void>;
+  verify: (id: ParamValue, pin: string) => Promise<void>;
+  resendotp: (id: ParamValue) => Promise<void>;
+  logout: () => void;
+}
+export interface UserState {
+  user: IUser | null;
+  setUser: (user: IUser | null) => void;
+  getUser: (id: ParamValue) => Promise<void>;
 }

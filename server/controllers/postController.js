@@ -1,9 +1,9 @@
+const mongoose = require("mongoose");
 const Post = require("../models/postModel");
 const Views = require("../models/viewsModel");
 const User = require("../models/userModel");
 const Followers = require("../models/followerModel");
 const Comment = require("../models/commentModel");
-const mongoose = require("mongoose");
 const stats = async (req, res, next) => {
   try {
     const { query } = req.query;
@@ -138,24 +138,28 @@ const getFollowers = async (req, res, next) => {
 const getPostContent = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-
-    let queryResult = await Post.find({ user: userId }).sort({ _id: -1 });
-
-    // pagination
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
+    let queryResult = await Post.find({ "author.id": userId })
+      .populate({
+        path: "author",
+        select: "name email image accountType followers -password",
+      })
+      .skip(skip)
+      .limit(limit);
+
+    // pagination
     //records count
-    const totalPost = await Post.find().countDocuments({ user: userId });
+    const totalPost = await Post.find({ "author.id": userId }).countDocuments();
     const numOfPages = Math.ceil(totalPost / limit);
-    const posts = queryResult.skip(skip).limit(limit);
 
     res.status(200).json({
       success: true,
       message: "Content loaded successfully",
       totalPost,
-      data: posts,
+      data: queryResult,
       numOfPages,
       page,
     });
@@ -251,47 +255,13 @@ const updatePost = async (req, res, next) => {
 
 const getPosts = async (req, res, next) => {
   try {
-    const { cat, writerId } = req.query;
+    const { cat } = req.query;
 
     let query = { status: true };
     if (cat) {
       query.cat = cat;
-    } else if (writerId) {
-      query.author = writerId;
     }
     let queryResult = Post.find(query)
-      .populate({
-        path: "author",
-        select: "title image -password",
-      })
-      .sort({ _id: -1 });
-
-    // pagination
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 8;
-    const skip = (page - 1) * limit;
-
-    // records count
-    const totalPost = await Post.countDocuments(queryResult);
-    const numOfPages = Math.ceil(totalPost / limit);
-    queryResult.skip(skip).limit(limit);
-    const posts = await queryResult;
-
-    res.status(200).json({
-      success: true,
-      totalPost,
-      data: posts,
-      numOfPages,
-      page,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(404).json({ message: "Something went wrong" });
-  }
-};
-const getAllPosts = async (req, res, next) => {
-  try {
-    let queryResult = Post.find({ status: true })
       .populate({
         path: "author",
         select: "title image -password",
@@ -459,7 +429,6 @@ module.exports = {
   commentPost,
   updatePost,
   getPosts,
-  getAllPosts,
   getPopularContents,
   getComments,
   deletePost,
