@@ -1,9 +1,8 @@
 import { BookOpenCheck, ChartNoAxesCombined, UserCheck } from "lucide-react";
 export const NavbarItems = [
   { id: 1, label: "Home", href: "/" },
-  { id: 2, label: "Trending", href: "/trending" },
-  { id: 3, label: "Most Popular", href: "/most-popular" },
-  { id: 4, label: "About", href: "/about" },
+  { id: 2, label: "Most Popular", href: "/most-popular" },
+  { id: 3, label: "About", href: "/about" },
 ];
 
 export const Categories = [

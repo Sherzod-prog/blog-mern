@@ -40,7 +40,7 @@ const PostListItem: React.FC<{ post: IPost }> = ({ post }) => {
           {post.description}
         </p>
         <Link
-          href={`post/${post.title.split(" ").join("-")}`}
+          href={`post/${post._id}`}
           className="underline text-blue-800 text-sm"
         >
           Read More

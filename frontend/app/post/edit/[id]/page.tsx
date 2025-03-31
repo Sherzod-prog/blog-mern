@@ -20,16 +20,13 @@ import { useParams, useRouter } from "next/navigation";
 import { usePostStore } from "@/store/posts";
 import { PostStore } from "@/types";
 import { toast } from "sonner";
-import axios from "axios";
 
 const PostEditPage = () => {
   const { id } = useParams();
   const router = useRouter();
-  const { posts, fetchAllPosts, page } = usePostStore<PostStore>(
+  const { post, fetchEditPost, fetchPostById } = usePostStore<PostStore>(
     (state) => state
   );
-
-  const post = posts.find((post) => post._id === id);
 
   const form = useForm<z.infer<typeof createPostFormSchema>>({
     resolver: zodResolver(createPostFormSchema),
@@ -42,31 +39,14 @@ const PostEditPage = () => {
   });
 
   const onSubmit = async (value: z.infer<typeof createPostFormSchema>) => {
-    try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BASE_URI}/posts/update/${id}`,
-        value,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const data = await response.data;
-      if (data.success) {
-        toast.success(data.message);
-        router.push("/profile/posts");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    fetchEditPost(id, value);
+    toast.success("Post updated successfully!");
+    router.push("/profile/posts");
   };
 
   useEffect(() => {
-    fetchAllPosts(page, 10);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+    fetchPostById(id);
+  }, []);
   return (
     <div>
       <div className="h-[calc(100vh-30px)] md:h-[calc(100vh-80px)] py-10 m-auto px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">

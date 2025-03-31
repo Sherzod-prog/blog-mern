@@ -36,3 +36,14 @@ export const signUpFormSchema = z.object({
     message: "Password must be at least 5 characters.",
   }),
 });
+
+export const commentFormSchema = z.object({
+  description: z
+    .string()
+    .min(2, {
+      message: "Comment must not be longer than 2 characters.",
+    })
+    .max(200, {
+      message: "Comment must not be longer than 200 characters.",
+    }),
+});

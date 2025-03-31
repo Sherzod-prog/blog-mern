@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,42 +10,49 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { commentFormSchema } from "@/lib/validation";
+import { ParamValue } from "next/dist/server/request/params";
+import { usePostStore } from "@/store/posts";
+import { PostStore } from "@/types";
 
-const FormSchema = z.object({
-  bio: z
-    .string()
-    .min(2, {
-      message: "Comment must not be longer than 2 characters.",
-    })
-    .max(200, {
-      message: "Comment must not be longer than 200 characters.",
-    }),
-});
-
-const CommentInput = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+const CommentInput = ({ postId: postId }: { postId: ParamValue }) => {
+  const { fetchCreatComment, fetchAllComments } = usePostStore<PostStore>(
+    (state) => state
+  );
+  const form = useForm<z.infer<typeof commentFormSchema>>({
+    resolver: zodResolver(commentFormSchema),
     defaultValues: {
-      bio: "",
+      description: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+  function onSubmitComment(value: z.infer<typeof commentFormSchema>) {
+    fetchCreatComment(postId, value);
+    fetchAllComments(postId);
+    form.reset();
+  }
+
+  function onResetComment() {
+    form.reset();
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmitComment)}
+        onReset={onResetComment}
+        className="space-y-2"
+      >
         <FormField
           control={form.control}
-          name="bio"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              {/* <FormLabel>Bio</FormLabel> */}
+              <FormLabel>Your comment</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us a little bit about yourself"

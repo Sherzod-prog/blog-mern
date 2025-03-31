@@ -1,23 +1,21 @@
 "use client";
+import React, { useEffect } from "react";
 import CommentInput from "@/components/CommentInput";
 import { usePostStore } from "@/store/posts";
-import { IComment, PostStore } from "@/types";
+import { PostStore } from "@/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const PostPage = () => {
-  const { slug } = useParams();
-  const { posts, fetchAllPosts, page } = usePostStore<PostStore>(
-    (state) => state
-  );
+  const { id } = useParams();
+  const { post, fetchPostById, fetchAllComments, comments } =
+    usePostStore<PostStore>((state) => state);
 
   useEffect(() => {
-    fetchAllPosts(page, 10);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  const post = posts.find((post) => post.title.split(" ").join("-") === slug);
+    fetchPostById(id);
+    fetchAllComments(id);
+  }, [comments?.length]);
 
   return (
     <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
@@ -56,18 +54,27 @@ const PostPage = () => {
             Comments ...
           </div>
 
-          <CommentInput />
-
           <div className="pl-3">
-            {post.comments.map((com: IComment) => (
-              <div key={com._id} className="my-4 odd:bg-secondary py-3 px-1">
-                <div className="font-semibold text-xl ml-2 my-1">
-                  {com.user}
-                </div>
-                <div>{com.description}</div>
-              </div>
-            ))}
+            {comments &&
+              comments
+                .map((com) => (
+                  <div
+                    key={com._id}
+                    className="my-1 odd:bg-secondary py-3 px-1 rounded-sm"
+                  >
+                    <div className=" flex justify-start items-center gap-2 font-semibold text-sm  my-1">
+                      <Avatar>
+                        <AvatarImage src={com.user?.avatar} />
+                        <AvatarFallback>{com.user?.name}</AvatarFallback>
+                      </Avatar>
+                      <div>{com.user?.name}</div>
+                    </div>
+                    <div>{com.description}</div>
+                  </div>
+                ))
+                .slice(0, 5)}
           </div>
+          <CommentInput postId={id} />
         </div>
       )}
     </div>

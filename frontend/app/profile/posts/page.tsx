@@ -46,12 +46,9 @@ const DashboardPostsPage = () => {
     fetchUserPosts(page, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-  console.log(posts);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-  console.log("page", page);
-  console.log("numOfPages +", numOfPages);
 
   return (
     <>

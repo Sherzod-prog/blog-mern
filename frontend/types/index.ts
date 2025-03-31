@@ -42,7 +42,7 @@ export interface IPost {
   description: string;
   createdAt: string;
   views: IView[];
-  comments: IComment;
+  comments: IComment[];
   status: boolean;
   updatedAt: string;
 }
@@ -64,6 +64,17 @@ export interface IComment {
   _id: string;
   description: string;
   user: string;
+  post: string;
+  createdAt: string;
+}
+export interface IComments {
+  _id: string;
+  description: string;
+  user: {
+    _id: string;
+    name: string;
+    avatar: string;
+  };
   post: string;
   createdAt: string;
 }
@@ -102,14 +113,47 @@ export interface IsignInForm {
   image: string;
   accountType: string;
 }
-
+export interface IPopularposts {
+  _id: string;
+  image: string;
+  title: string;
+  createdAt: string;
+  views: number;
+}
+export interface IPopularwriters {
+  _id: string;
+  name: string;
+  image: string;
+  followers: number;
+}
 export interface PostStore {
   posts: Array<{ cat: string; [key: string]: any }>; // Adjust the shape of the post object as needed
+  post: IPost | null;
+  fetchAnaliticData: () => void;
+  fetchCreatePost: (values: {
+    title: string;
+    description: string;
+    image: string;
+    cat: string;
+  }) => void;
+  fetchEditPost: (
+    id: ParamValue,
+    value: { title: string; description: string; image: string; cat: string }
+  ) => void;
   fetchAllPosts: (page: number, limit: number, cat?: string) => void;
   fetchUserPosts: (page: number, limit: number) => void;
   fetchUserFollowers: (page: number, limit: number) => void;
-  // fetchPostById: (id: string) => void;
+  fetchPostById: (id: ParamValue) => void;
+  fetchCreatComment: (id: ParamValue, valeus: { description: string }) => void;
+  fetchAllComments: (id: ParamValue) => void;
+  fetchDeleteComment: (id: ParamValue) => void;
   deletePost: (id: string) => void;
+  fetchGetPopular: () => void;
+  comment: IComment[] | null;
+  comments: IComments[] | null;
+  analiticData: IAdminAnalytics | null;
+  popularPosts: IPopularposts[] | null;
+  popularWriters: IPopularwriters[] | null;
   page: number;
   numOfPages: number;
   loading: boolean;

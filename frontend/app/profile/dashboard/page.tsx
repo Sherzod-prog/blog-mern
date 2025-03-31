@@ -1,39 +1,35 @@
 "use client";
-
-import { IAdminAnalytics } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { usePostStore } from "@/store/posts";
+import { IPost, PostStore } from "@/types";
 
 const DashboardPage = () => {
-  const [data, setData] = useState<IAdminAnalytics>();
-  const analiticData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URI}/posts/admin-analytics`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const resData = await response.json();
-      setData(resData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { analiticData, fetchAnaliticData } = usePostStore<PostStore>(
+    (state) => state
+  );
+  console.log(analiticData);
+
   useEffect(() => {
-    analiticData();
+    fetchAnaliticData();
   }, []);
-  console.log(data);
   return (
     <div>
       <h1>Dashboard</h1>
       <div></div>
       <h1>User: </h1>
-      <h1>Posts: {data?.totalPosts}</h1>
-      <h1>Followers: {data?.followers}</h1>
+      <h1>Posts: {analiticData?.totalPosts}</h1>
+      <h1>Followers: {analiticData?.followers}</h1>
+      <div>
+        <span className="font-semibold">Last 5 posts:</span>
+        {analiticData?.last5Posts.map((post: IPost, index) => (
+          <div key={index} className=" flex justify-start items-center gap-2">
+            <div>{post.title}</div>
+            <div>{post.cat}</div>
+            <div>{post.comments.length}</div>
+            <div>{post.views.length}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

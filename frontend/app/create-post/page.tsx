@@ -20,12 +20,19 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Categories } from "@/constants";
 import { createPostFormSchema } from "@/lib/validation";
+import { usePostStore } from "@/store/posts";
+import { PostStore } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const CreatePost = () => {
+const CreatePostPage = () => {
+  const router = useRouter();
+
+  const { fetchCreatePost } = usePostStore<PostStore>((state) => state);
+
   const form = useForm<z.infer<typeof createPostFormSchema>>({
     resolver: zodResolver(createPostFormSchema),
     defaultValues: {
@@ -36,34 +43,29 @@ const CreatePost = () => {
     },
   });
 
-  const onSubmit = async (value: z.infer<typeof createPostFormSchema>) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URI}/posts/create-post`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(value),
-        }
-      );
-      const data = await response.json();
-      if (data.success) {
-        toast.success(data.message);
-        form.reset();
-      }
-    } catch (error) {
-      console.log(error);
+  function onSubmit(values: z.infer<typeof createPostFormSchema>) {
+    if (!values.title || !values.description || !values.image || !values.cat) {
+      toast.error("Please fill all the fields!");
+    } else {
+      fetchCreatePost(values);
+      toast.success("Post created successfully!");
+      router.push("/");
     }
+  }
+  const onResetSubmit = () => {
+    form.reset();
+    router.push("/");
   };
 
   return (
     <div className="h-[calc(100vh-30px)] md:h-[calc(100vh-80px)] py-10 m-auto px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">
       <h1 className="text-3xl text-center font-semibold">Create a New Post</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          onReset={onResetSubmit}
+          className="space-y-5"
+        >
           <FormField
             control={form.control}
             name="cat"
@@ -147,11 +149,7 @@ const CreatePost = () => {
             )}
           />
           <div className="flex justify-end gap-3">
-            <Button
-              variant="destructive"
-              type="reset"
-              onClick={() => form.reset()}
-            >
+            <Button variant="destructive" type="reset">
               Cancel
             </Button>
             <Button type="submit">Submit</Button>
@@ -162,4 +160,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreatePostPage;

@@ -11,7 +11,6 @@ const FollersPage = () => {
     fetchUserFollowers(page, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-  console.log(posts);
 
   return (
     <div>

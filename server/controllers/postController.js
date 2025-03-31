@@ -17,17 +17,13 @@ const stats = async (req, res, next) => {
     startDate.setDate(currentDate.getDate() - numofDays);
 
     const totalPosts = await Post.find({
-      author: userId,
+      "author.id": userId,
       createdAt: { $gte: startDate, $lte: currentDate },
     }).countDocuments();
 
     const totalViews = await Views.find({
-      author: userId,
+      "author.id": userId,
       createdAt: { $gte: startDate, $lte: currentDate },
-    }).countDocuments();
-
-    const totalWriters = await User.find({
-      accountType: "Writer",
     }).countDocuments();
 
     const totalFollowers = await User.findById(userId);
@@ -74,11 +70,12 @@ const stats = async (req, res, next) => {
       perDocumentLimit: 5,
       populate: {
         path: "followerId",
-        select: "name email image accountType followers -password",
+        select: "name email avatar accountType followers -password",
       },
     });
+    console.log(last5Followers);
 
-    const last5Posts = await Post.find({ user: userId })
+    const last5Posts = await Post.find({ "author.id": userId })
       .limit(5)
       .sort({ _id: -1 });
 
@@ -87,7 +84,6 @@ const stats = async (req, res, next) => {
       message: "Data loaded successfully",
       totalPosts,
       totalViews,
-      totalWriters,
       totalFollowers,
       followers: totalFollowers?.followers?.length,
       viewStats,
@@ -208,18 +204,18 @@ const commentPost = async (req, res, next) => {
     const { description } = req.body;
     const { id } = req.params;
 
-    if (description === null) {
+    if (!description) {
       return res.status(404).json({ message: "Comment is required" });
     }
 
     const newComment = new Comment({ description, user: userId, post: id });
     await newComment.save();
 
-    // update the post with the comments id
-    const post = await Post.findById(id);
-    post.comments.push(newComment._id);
-
-    Post.findOneAndUpdate(id, post, { new: true });
+    await Post.findOneAndUpdate(
+      { _id: id },
+      { $push: { comments: newComment._id } },
+      { new: true }
+    );
 
     res.status(201).json({
       success: true,
@@ -338,11 +334,12 @@ const getPost = async (req, res, next) => {
     const { postId } = req.params;
 
     const post = await Post.findById(postId).populate({
-      path: "user",
-      select: "name image -password",
+      path: "author",
+      select: "name avatar -password",
     });
+
     const newView = await Views.create({
-      user: post.user,
+      author: post.author,
       post: postId,
     });
     post.views.push(newView?._id);
@@ -364,9 +361,9 @@ const getComments = async (req, res, next) => {
     const postComments = await Comment.find({ post: postId })
       .populate({
         path: "user",
-        select: "name image -password",
+        select: "name avatar -password",
       })
-      .sort({ _id: -1 });
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
