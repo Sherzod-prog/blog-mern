@@ -4,8 +4,9 @@ import { usePostStore } from "@/store/posts";
 import { PostStore } from "@/types";
 
 const FollersPage = () => {
-  const { posts, fetchUserFollowers, page, loading, error, numOfPages } =
-    usePostStore<PostStore>((state) => state);
+  const { posts, fetchUserFollowers, page } = usePostStore<PostStore>(
+    (state) => state
+  );
 
   useEffect(() => {
     fetchUserFollowers(page, 10);
