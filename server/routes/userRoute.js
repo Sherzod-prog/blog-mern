@@ -20,5 +20,3 @@ router.put("/update-user/:id", userAuth, updateUser);
 router.get("/get-user/:id?", getWriter);
 
 module.exports = { router };
-
-// 7:22

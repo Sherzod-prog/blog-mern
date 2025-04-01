@@ -12,7 +12,7 @@ const Footer = () => {
     <div className="flex justify-between items-center border-t-2 py-4">
       <div>All rights reserved © {new Date().getFullYear()}</div>
       <div className="font-semibold text-2xl">
-        Sherz<span className="text-red-600 tex">Blog.</span>
+        Bl<span className="text-red-600">o</span>g.
       </div>
       <div>
         <ul className="flex gap-4">

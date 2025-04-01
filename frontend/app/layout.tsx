@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
+import Navbarres from "@/components/Navbarres";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
+          {/* <Navbarres /> */}
           {children}
           <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
             <Footer />

@@ -60,11 +60,15 @@ const CommentInput = ({ postId: postId }: { postId: ParamValue }) => {
                   {...field}
                 />
               </FormControl>
+              <span className=" flex justify-end">
+                {field.value.length}/500
+              </span>
               <FormMessage />
             </FormItem>
           )}
-        />{" "}
-        <div className="flex justify-end gap-2">
+        />
+
+        <div className="flex justify-end gap-2 ">
           <Button type="reset">Cancel</Button>
           <Button variant="default" className=" bg-primary" type="submit">
             Submit

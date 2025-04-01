@@ -59,7 +59,7 @@ const CreatePostPage = () => {
 
   return (
     <div className="h-[calc(100vh-30px)] md:h-[calc(100vh-80px)] py-10 m-auto px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">
-      <h1 className="text-3xl text-center font-semibold">Create a New Post</h1>
+      <h1 className="text-2xl text-center font-semibold">Create a New Post</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

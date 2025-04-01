@@ -5,7 +5,6 @@ import { create } from "zustand";
 // Auth do'konini yaratish
 export const useAuthStore = create<AuthState>((set) => ({
   account: null,
-
   setAccount: (account) => set({ account }),
 
   register: async (values) => {

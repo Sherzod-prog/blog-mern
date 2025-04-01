@@ -49,7 +49,7 @@ const VerifyEmailPage = () => {
   async function onSubmit() {
     try {
       await verify(id, form.getValues().pin);
-      router.push("/auth/login");
+      router.push("/auth/sign-up");
     } catch (error) {
       console.log(error);
     }

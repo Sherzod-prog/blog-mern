@@ -1,5 +1,6 @@
 "use client";
 import { useAuthStore } from "@/store/auth";
+import { useUserStore } from "@/store/users";
 import Image from "next/image";
 import React from "react";
 

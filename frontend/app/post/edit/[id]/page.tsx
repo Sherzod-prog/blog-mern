@@ -27,6 +27,7 @@ const PostEditPage = () => {
   const { post, fetchEditPost, fetchPostById } = usePostStore<PostStore>(
     (state) => state
   );
+  console.log(post);
 
   const form = useForm<z.infer<typeof createPostFormSchema>>({
     resolver: zodResolver(createPostFormSchema),
@@ -46,8 +47,7 @@ const PostEditPage = () => {
 
   useEffect(() => {
     fetchPostById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
   return (
     <div>
       <div className="h-[calc(100vh-30px)] md:h-[calc(100vh-80px)] py-10 m-auto px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">

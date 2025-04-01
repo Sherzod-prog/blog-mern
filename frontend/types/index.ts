@@ -163,6 +163,8 @@ export interface PostStore {
 }
 export interface AuthState {
   account: IAccount | null;
+  // isAuth: boolean;
+  // setIsAuth: (isAuth: boolean) => void;
   setAccount: (account: IAccount | null) => void;
   login: (values: IsignUpForm) => Promise<void>;
   register: (values: IsignUpForm) => Promise<void>;

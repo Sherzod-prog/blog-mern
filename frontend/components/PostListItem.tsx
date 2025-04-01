@@ -9,7 +9,7 @@ const PostListItem: React.FC<{ post: IPost }> = ({ post }) => {
     <div className="flex flex-col xl:flex-row gap-4 my-3 shadow rounded-md p-2">
       <div className="xl:block xl:w-1/3">
         <Image
-          src={post.image || "../vercel.svg"}
+          src={post?.image ?? "../vercel.svg"}
           alt="post image"
           className="rounded-2xl object-cover"
           width={500}
@@ -17,7 +17,7 @@ const PostListItem: React.FC<{ post: IPost }> = ({ post }) => {
         />
       </div>
       <div className="flex flex-col gap-4 xl:w-2/3">
-        <div className="text-3xl font-semibold uppercase">{post.title}</div>
+        <div className="text-xl font-semibold uppercase">{post.title}</div>
         <div className="xl:flex xl:items-center gap-2 text-gray-400 text-sm xl:gap-2">
           <div>
             <span>Written by </span>

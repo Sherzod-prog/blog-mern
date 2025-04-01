@@ -22,17 +22,17 @@ const MostPopularPage = () => {
   }, []);
 
   return (
-    <div className="w-9/12 mx-auto">
+    <div className=" min-h-screen w-11/12 mx-auto">
       <h1 className=" text-center text-2xl my-3">Most Popular posts</h1>
       <Table className="border-y-2">
         <TableHeader>
           <TableRow className="bg-muted  ">
             <TableHead className="w-1/12 text-center ">N</TableHead>
-            <TableHead className="w-3/12 text-center border-x-2">
+            <TableHead className="w-2/12 text-center border-x-2">
               Image
             </TableHead>
-            <TableHead className="w-3/12 ">Title</TableHead>
-            <TableHead className="w-3/12 text-end border-x-2">
+            <TableHead className="w-5/12 ">Title</TableHead>
+            <TableHead className="w-5/12 text-end border-x-2">
               Create date
             </TableHead>
             <TableHead className="w-1/12 text-center">Views</TableHead>
@@ -72,10 +72,7 @@ const MostPopularPage = () => {
         <TableHeader>
           <TableRow className="bg-muted  ">
             <TableHead className="w-1/12 text-center ">N</TableHead>
-            <TableHead className="w-3/12 text-center border-x-2">
-              Image
-            </TableHead>
-            <TableHead className="w-3/12 ">Name</TableHead>
+            <TableHead className="w-9/12 ">Name</TableHead>
             <TableHead className="w-1/12 text-center">Followers</TableHead>
           </TableRow>
         </TableHeader>
@@ -86,16 +83,7 @@ const MostPopularPage = () => {
                 <TableCell className="w-1/12 text-center">
                   {index + 1}
                 </TableCell>
-                <TableCell className="w-3/12 text-center border-x-2">
-                  <Image
-                    className="rounded-md mx-auto"
-                    src={post.image || "./globe.svg"}
-                    alt="post image"
-                    width={50}
-                    height={50}
-                  />
-                </TableCell>
-                <TableCell className="w-3/12">
+                <TableCell className="w-9/12">
                   <span className="line-clamp-2">{post.name}</span>
                 </TableCell>
                 <TableCell className="w-1/12 text-center">

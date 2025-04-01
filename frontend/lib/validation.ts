@@ -20,7 +20,7 @@ export const signInFormSchema = z.object({
   password: z.string().min(5, {
     message: "Password must be at least 5 characters.",
   }),
-  image: z.string({
+  avatar: z.string({
     message: "Profile picture",
   }),
   accountType: z.string({

@@ -31,7 +31,7 @@ const SignInPage = () => {
       lastName: "",
       email: "",
       password: "",
-      image: "",
+      avatar: "",
       accountType: "Writer",
     },
   });
@@ -113,7 +113,7 @@ const SignInPage = () => {
           />
           <FormField
             control={form.control}
-            name="image"
+            name="avatar"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Image link</FormLabel>
