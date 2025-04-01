@@ -174,6 +174,8 @@ export interface AuthState {
 }
 export interface UserState {
   user: IUser | null;
+  follow: null;
+  followerUser: (id: ParamValue) => Promise<void>;
   setUser: (user: IUser | null) => void;
   getUser: (id: ParamValue) => Promise<void>;
 }
