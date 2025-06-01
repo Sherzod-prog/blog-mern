@@ -82,7 +82,7 @@ const Navbar = () => {
           className="border-2 border-red-600 text-center p-2 rounded-lg mx-2 hover:rounded-xl hover:transition-all hover:ease-in-out hover:bg-red-600 hover:text-white"
           href="/create-post"
         >
-          Create
+          Add Post
         </Link>
         <ModeToggle />
         <DropdownMenu>
