@@ -21,7 +21,7 @@ This project is a full-stack blog platform that allows users to create, view, ed
 
 - Express.js
 - MongoDB + Mongoose
-- WT (for authentication)
+- JWT (for authentication)
 - Bcrypt (for password hashing)
 - Nodemailer (for sending emails)
 - Helmet, CORS, Morgan (for security and logging)
@@ -31,6 +31,8 @@ This project is a full-stack blog platform that allows users to create, view, ed
 #### 1. Frontend:
 
 ```bash
+bash
+
 cd frontend
 npm install
 npm run dev
@@ -39,6 +41,8 @@ npm run dev
 #### 2. Backend
 
 ```bash
+bash
+
 cd backend
 npm install
 npm run dev
