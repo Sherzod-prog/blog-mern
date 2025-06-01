@@ -1,22 +1,45 @@
-# Blog
+# Full Stack Blog Platform
 
-## MERN Stack project
+## 📝 About the Project
 
-- This blogging platform allows users to read and share articles, news, and interesting information on various topics. Through the site, users can expand their knowledge and experience, express their opinions, and maintain their own blogs. With a minimalist design and intuitive interface, it is easy to create and read blog posts. Each user can customize their profile and browse content in different categories.
+This project is a full-stack blog platform that allows users to create, view, edit, and delete blog posts. It is built using **React (Next.js)** for the frontend and **Express (Node.js)** for the backend.
 
-### Backend
+### 🔧 Technologies Used
 
-- Node Js
+#### Frontend:
 
-### Frontend
-
-- Next JS
-
-### Styling & UI
-
+- Next.js 15
+- React 18
 - Tailwind CSS
-- Shadcn
+- React Hook Form
+- Zod (for validation)
+- Zustand (state management)
+- Axios (for API requests)
+- Radix UI, Lucide React (for UI components)
 
-### Database
+#### Backend:
 
-- Mongo DB
+- Express.js
+- MongoDB + Mongoose
+- WT (for authentication)
+- Bcrypt (for password hashing)
+- Nodemailer (for sending emails)
+- Helmet, CORS, Morgan (for security and logging)
+
+### 🚀 Getting Started
+
+#### 1. Frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+#### 2. Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
