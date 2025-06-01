@@ -18,7 +18,6 @@ const stats = async (req, res, next) => {
 
     const totalPosts = await Post.find({
       "author.id": userId,
-      createdAt: { $gte: startDate, $lte: currentDate },
     }).countDocuments();
 
     const totalViews = await Views.find({
@@ -73,7 +72,6 @@ const stats = async (req, res, next) => {
         select: "name email avatar accountType followers -password",
       },
     });
-    console.log(last5Followers);
 
     const last5Posts = await Post.find({ "author.id": userId })
       .limit(5)
